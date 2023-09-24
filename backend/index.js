@@ -34,7 +34,7 @@ app.get('/pessoa', async (req, res) => {
 app.get('/pessoa/:id', async (req, res) => {
     const { id } = req.params;
     const [query] = await connection.execute('select * from TestePessoa.Pessoa where id = ?', [id]);
-    if (query.lenght === 0) return res.status(400).json({ mensagem: 'Nao encontrado. ' })
+    if (query.lenght === 0) return res.status(400).json({ mensagem: 'Nao encontrado.' })
     return res.status(200).json(query);
 })
 
@@ -47,7 +47,21 @@ app.post('/pessoa', async (req, res) => {
 app.get('/pessoa/:nome', async (req, res) => {
     const { nome } = req.params;
     const [query] = await connection.execute('select * from TestePessoa.Pessoa where nome = ?', [nome]);
-    if (query.lenght === 0) return res.status(400).json({ mensagem: 'Nao encontrado. ' })
+    if (query.lenght === 0) return res.status(400).json({ mensagem: 'Nao encontrado.' })
     return res.status(200).json(query);
 })
 
+app.put('/pessoa/:id', async (req, res) => {
+    const { id } = req.params;
+    const { nome, email } = req.body;
+    const [updateResult] = await connection.execute('UPDATE TestePessoa.Pessoa SET nome = ?, email = ? WHERE id = ?', [nome, email, id]);
+    if (updateResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Pessoa não encontrada.' });
+    return res.status(200).json({ mensagem: 'Pessoa alterada com sucesso.' });
+})
+
+app.delete('/pessoa/:id', async (req, res) => {
+    const { id } = req.params;
+    const [deleteResult] = await connection.execute('DELETE FROM TestePessoa.Pessoa WHERE id = ?', [id]);
+    if (deleteResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Pessoa não encontrada.' });
+    return res.status(200).json({ mensagem: 'Pessoa excluída com sucesso.' });
+})
