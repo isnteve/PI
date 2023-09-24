@@ -16,10 +16,6 @@ app.get('/', (req, res) => {
     res.send("Evelin");
 })
 
-app.get('/', (req, res) => {
-    res.send("Kauan Barbosa Machado");
-})
-
 const getAllPessoas = async () => {
     const [query] = await connection
         .execute('select * from TestePessoa.Pessoa')
