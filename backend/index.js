@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express();
-app.use(express.json())
+app.use(express.urlencoded({extend:true}));
+app.use(express.json());
 app.listen(9000, () => console.log("OK"));
 
 const mysql = require('mysql2/promise')
