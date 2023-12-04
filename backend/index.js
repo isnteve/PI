@@ -1,21 +1,27 @@
 const express = require('express')
+const cors = require('cors');
+
 const app = express();
 app.use(express.urlencoded({ extend: true }));
 app.use(express.json());
-app.listen(3000, () => console.log("OK"));
+app.use(cors());
+
+const PORT = 3306
+
+app.listen(PORT, () => {
+  console.log('Aplicação respondendo em: http://localhost:${PORT}');
+});
+
 
 const mysql = require('mysql2/promise');
-
-async function createConnection() {
-  const connection = await mysql.createConnection({
+  const connection = mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: '',
     database: 'Share'
   });
-  return connection;
-}
+ 
 
 app.get('/', (req, res) => {
     res.send("Evelin");
@@ -66,17 +72,13 @@ app.get('/doador', async (req, res) => {
     return res.status(200).json({ mensagem: 'Doador excluído com sucesso.' });
   });
 
-  // Métodos CRUD para a tabela usuario
-
-// Listar todos os usuários
 app.get('/usuario', async (req, res) => {
     const connection = await createConnection();
     const [rows] = await connection.execute('SELECT * FROM usuario');
     connection.end();
     return res.status(200).json(rows);
   });
-  
-  // Obter um usuário pelo ID
+
   app.get('/usuario/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -85,8 +87,7 @@ app.get('/usuario', async (req, res) => {
     if (rows.length === 0) return res.status(400).json({ mensagem: 'Usuário não encontrado.' });
     return res.status(200).json(rows);
   });
-  
-  // Criar um novo usuário
+
   app.post('/usuario', async (req, res) => {
     const { nome, email, senha } = req.body;
     const connection = await createConnection();
@@ -95,8 +96,7 @@ app.get('/usuario', async (req, res) => {
     connection.end();
     return res.status(200).json(result);
   });
-  
-  // Atualizar um usuário pelo ID
+
   app.put('/usuario/:id', async (req, res) => {
     const { id } = req.params;
     const { nome, email, senha } = req.body;
@@ -107,8 +107,7 @@ app.get('/usuario', async (req, res) => {
     if (updateResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
     return res.status(200).json({ mensagem: 'Usuário alterado com sucesso.' });
   });
-  
-  // Excluir um usuário pelo ID
+
   app.delete('/usuario/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -118,17 +117,13 @@ app.get('/usuario', async (req, res) => {
     return res.status(200).json({ mensagem: 'Usuário excluído com sucesso.' });
   });
 
-// Métodos CRUD para a tabela campanhas
-
-// Listar todas as campanhas
 app.get('/campanhas', async (req, res) => {
     const connection = await createConnection();
     const [rows] = await connection.execute('SELECT * FROM campanhas');
     connection.end();
     return res.status(200).json(rows);
   });
-  
-  // Obter uma campanha pelo ID
+
   app.get('/campanhas/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -137,8 +132,7 @@ app.get('/campanhas', async (req, res) => {
     if (rows.length === 0) return res.status(400).json({ mensagem: 'Campanha não encontrada.' });
     return res.status(200).json(rows);
   });
-  
-  // Criar uma nova campanha
+
   app.post('/campanhas', async (req, res) => {
     const { id_usuario, nome, data_inicio, data_termino, descricao, valor_desejado, url_video, url_imagem } = req.body;
     const connection = await createConnection();
@@ -147,8 +141,7 @@ app.get('/campanhas', async (req, res) => {
     connection.end();
     return res.status(200).json(result);
   });
-  
-  // Atualizar uma campanha pelo ID
+ 
   app.put('/campanhas/:id', async (req, res) => {
     const { id } = req.params;
     const { id_usuario, nome, data_inicio, data_termino, descricao, valor_desejado, url_video, url_imagem } = req.body;
@@ -159,8 +152,7 @@ app.get('/campanhas', async (req, res) => {
     if (updateResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Campanha não encontrada.' });
     return res.status(200).json({ mensagem: 'Campanha alterada com sucesso.' });
   });
-  
-  // Excluir uma campanha pelo ID
+
   app.delete('/campanhas/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -169,10 +161,7 @@ app.get('/campanhas', async (req, res) => {
     if (deleteResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Campanha não encontrada.' });
     return res.status(200).json({ mensagem: 'Campanha excluída com sucesso.' });
   });
-  
-// Métodos CRUD para a tabela doacao
 
-// Listar todas as doações
 app.get('/doacao', async (req, res) => {
     const connection = await createConnection();
     const [rows] = await connection.execute('SELECT * FROM doacao');
@@ -180,7 +169,6 @@ app.get('/doacao', async (req, res) => {
     return res.status(200).json(rows);
   });
   
-  // Obter uma doação pelo ID
   app.get('/doacao/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -190,7 +178,6 @@ app.get('/doacao', async (req, res) => {
     return res.status(200).json(rows);
   });
   
-  // Criar uma nova doação
   app.post('/doacao', async (req, res) => {
     const { id_doador, id_campanha, valor, data, status, forma_pagamento } = req.body;
     const connection = await createConnection();
@@ -199,8 +186,7 @@ app.get('/doacao', async (req, res) => {
     connection.end();
     return res.status(200).json(result);
   });
-  
-  // Atualizar uma doação pelo ID
+ 
   app.put('/doacao/:id', async (req, res) => {
     const { id } = req.params;
     const { id_doador, id_campanha, valor, data, status, forma_pagamento } = req.body;
@@ -212,7 +198,6 @@ app.get('/doacao', async (req, res) => {
     return res.status(200).json({ mensagem: 'Doação alterada com sucesso.' });
   });
   
-  // Excluir uma doação pelo ID
   app.delete('/doacao/:id', async (req, res) => {
     const { id } = req.params;
     const connection = await createConnection();
@@ -221,3 +206,43 @@ app.get('/doacao', async (req, res) => {
     if (deleteResult.affectedRows === 0) return res.status(404).json({ mensagem: 'Doação não encontrada.' });
     return res.status(200).json({ mensagem: 'Doação excluída com sucesso.' });
   });
+
+  app.post('/configuracao', async (req, res) => {
+    const { sobre, mapa, dados, texto } = req.body;
+    const connection = await createConnection();
+    const [insertResult] = await connection.execute('INSERT INTO configuracao (sobre, mapa, dados, texto) VALUES (?, ?, ?, ?)', [sobre, mapa, dados, texto]);
+    connection.end();
+    if (insertResult.affectedRows) {return res.status(201).json({ mensagem: 'Configuração criada com sucesso.' });
+  }
+  return res.status(500).json({ mensagem: 'Erro ao criar configuração.' });
+});
+
+  app.get('/configuracao/:id', async (req, res) => {
+    const { id } = req.params;
+    const connection = await createConnection();
+    const [configuracao] = await connection.execute('SELECT * FROM configuracao WHERE id = ?', [id]);
+    connection.end();
+    if (configuracao.length) {return res.status(200).json(configuracao[0]);}
+    return res.status(404).json({ mensagem: 'Configuração não encontrada.' });
+});
+
+  app.put('/configuracao/:id', async (req, res) => {
+    const { id } = req.params;
+    const { sobre, mapa, dados, texto } = req.body;
+    const connection = await createConnection();
+    const [updateResult] = await connection.execute('UPDATE configuracao SET sobre = ?, mapa = ?, dados = ?, texto = ? WHERE id = ?', [sobre, mapa, dados, texto, id]);
+    connection.end();
+    if (updateResult.affectedRows) {return res.status(200).json({ mensagem: 'Configuração atualizada com sucesso.' });
+  }
+    return res.status(404).json({ mensagem: 'Configuração não encontrada.' });
+});
+
+  app.delete('/configuracao/:id', async (req, res) => {
+    const { id } = req.params;
+    const connection = await createConnection();
+    const [deleteResult] = await connection.execute('DELETE FROM configuracao WHERE id = ?', [id]);
+    connection.end();
+    if (deleteResult.affectedRows) {return res.status(200).json({ mensagem: 'Configuração excluída com sucesso.' });
+    }
+    return res.status(404).json({ mensagem: 'Configuração não encontrada.' });
+});
