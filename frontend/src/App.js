@@ -53,11 +53,11 @@ const Home = () => {
  )
 };
 
-function ListarPessoas(){
- const [pessoas, setData] = useState([]);
+function ListarUsuarios(){
+ const [usuario, setData] = useState([]);
  useEffect(() => {
    const fetchData = async () => {
-     const resposta = await axios.get('http://localhost:3306/pessoa');
+     const resposta = await axios.get('http://localhost:3306/usuario');
      setData(resposta.data);
    };
    fetchData();
@@ -69,13 +69,15 @@ function ListarPessoas(){
          <tr style={{ borderBottom: '1px solid #ddd' }}>
            <th style={{ padding: '8px', textAlign: 'left' }}>Nome</th>
            <th style={{ padding: '8px', textAlign: 'left' }}>Email</th>
+           <th style={{ padding: '8px', textAlign: 'left' }}>Senha</th>
          </tr>
        </thead>
        <tbody>
-         {pessoas.map((pessoa, index) => (
+         {usuario.map((pessoa, index) => (
            <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-             <td style={{ padding: '8px' }}>{pessoa.nome}</td>
-             <td style={{ padding: '8px' }}>{pessoa.email}</td>
+             <td style={{ padding: '8px' }}>{usuario.nome}</td>
+             <td style={{ padding: '8px' }}>{usuario.email}</td>
+             <td style={{ padding: '8px' }}>{usuario.senha}</td>
            </tr>
          ))}
        </tbody>
@@ -94,7 +96,7 @@ const Listar = () => {
  return (
    <>
    <h1>Listar</h1>
-<ListarPessoas></ListarPessoas>
+<ListarUsuarios></ListarUsuarios>
    </>
    
 )
@@ -103,19 +105,21 @@ const Listar = () => {
 
 
 
-const CadastrarPessoa = () => {
+const CadastrarUsuario = () => {
  const [nome, setNome] = useState('');
  const [email, setEmail] = useState('');
+ const [senha, setSenha] = useState('');
  
 
  const handleSubmit = async (e) => {
    e.preventDefault();
 
    try {
-     await axios.post('http://localhost:3306/pessoa', { nome, email });
+     await axios.post('http://localhost:3306/usuario', { nome, email, senha });
      alert('Dados enviados com sucesso!');
      setNome('');
      setEmail('');
+     setSenha('');
 
    } catch (error) {
      console.error('Erro ao enviar dados:', error);
@@ -125,7 +129,7 @@ const CadastrarPessoa = () => {
 
  return (
    <div>
-     <h2>Formulário de Pessoa</h2>
+     <h2>Formulário de Usuário</h2>
      <form onSubmit={handleSubmit}>
        <label>
          Nome:
@@ -147,6 +151,17 @@ const CadastrarPessoa = () => {
          />
        </label>
        <br />
+       <br />
+       <label>
+         Senha:
+         <input
+           type="password"
+           value={senha}
+           onChange={(e) => setSenha(e.target.value)}
+           required
+         />
+       </label>
+       <br />
        <button type="submit">Enviar</button>
      </form>
    </div>
@@ -159,7 +174,7 @@ const Cadastrar = () => {
  return (
    <>
    <h1>Cadastrar</h1>;
-<CadastrarPessoa></CadastrarPessoa>
+<CadastrarUsuario></CadastrarUsuario>
    </>
    
 )

@@ -6,7 +6,7 @@ app.use(express.urlencoded({ extend: true }));
 app.use(express.json());
 app.use(cors());
 
-const PORT = 3306
+const PORT = 3000
 
 app.listen(PORT, () => {
   console.log('Aplicação respondendo em: http://localhost:${PORT}');
