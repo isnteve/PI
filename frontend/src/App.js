@@ -72,9 +72,9 @@ function ListarUsuarios() {
       <tbody>
         {usuario.map((pessoa, index) => (
           <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-            <td style={{ padding: '8px' }}>{usuario.nome}</td>
-            <td style={{ padding: '8px' }}>{usuario.email}</td>
-            <td style={{ padding: '8px' }}>{usuario.senha}</td>
+            <td style={{ padding: '8px' }}>{pessoa.nome}</td>
+            <td style={{ padding: '8px' }}>{pessoa.email}</td>
+            <td style={{ padding: '8px' }}>{pessoa.senha}</td>
           </tr>
         ))}
       </tbody>
