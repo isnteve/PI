@@ -1,13 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+:root {
+    --destaque: rgb(47, 177, 60);
+    --destaque-transparente: rgba(47, 177, 60, 70%);
+    --background: #EAF7EC;
+    --cardbackground: #E1F0E3;
+    --banner: url(img/banner.png);
+    --img-destaque: url(img/destaque.png)
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    top: 0;
+    background-color: var(--destaque-transparente);
+    backdrop-filter: blur(20px);
+    z-index: 1;
+    font-family: 'Montserrat';
+}
+
+h1 {
+    font-family: 'Montserrat';
+    font-size: 40px;
+}
+
+h2{
+    font-family: 'Montserrat';
+}
+
+p{
+    text-align: justify;
+}
+
+header h1,
+header a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+header h1 {
+    font-weight: 700;
+}
+
+header .container,
+.banner .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.container {
+    padding: 0 15%;
+}
+
+.justify {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Estilizando os inputs */
+input {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: var(--destaque);
+    box-shadow: 0 0 5px var(--destaque-transparente);
+}
+
+button, .btn2 {
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 3px solid var(--destaque);
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FFF;
+    color: var(--destaque);
+    font-size: 16px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+button:hover, .btn2:hover {
+    background-color: var(--destaque);
+    color: #fff;
+}
+
+.banner {
+    height: 50vh;
+    background-image: var(--banner);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-top: 70px;
+    margin-bottom: 50px;
+}
+
+#campanha{
+    background-image: url(img/campanha1.png);
+}
+
+.banner>div {
+    height: 100%;
+    display: flex;
+    color: #FFF;
+    font-size: 40px;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    backdrop-filter: brightness(50%);
+
+}
+
+.card {
+    border-radius: 20px;
+    padding: 15px;
+    background-color: var(--cardbackground);
+}
+
+.card2 {
+    border-radius: 15px;
+    padding: 15px;
+    background-color: var(--cardbackground);
+    border: 3px solid var(--destaque);
+}
+
+.card img{
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.card2 img{
+    aspect-ratio: 16/9;
+}
+
+.gap{
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.horizontal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+progress{
+    width: 100%;
+    height: 20px;
+    margin: 5px 0;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px var(--destaque) solid;
+}
+
+::-webkit-progress-value{
+    background-color: var(--destaque);
+}
+::-webkit-progress-bar{
+    background-color: #FFF;
+}
+
+.btn{
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--destaque);
+    width: 100%;
+    height: 40px;
+    color: #FFF;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.w50{
+    width: 48% !important; 
+}
+.foto{
+    height: 100%;
+}
+.foto img{
+    width: 100%;
+    height: 100%;
+}
+
+
+.btn{
+    padding: 20px 100px;
+    background-color: var(--destaque);
+    border-radius: 10px;
+    display: flex;
+    width: fit-content;
+    color: #FFF;
+}
+iframe{
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.video iframe{
+    aspect-ratio: 16/9;
+}
+
+/*footer*/
+footer{
+    background-color: var(--destaque);
+    color: #FFF;
+    padding: 10px 0;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 1000px){
+    section.justify{
+        flex-direction: column;
+        gap: 15px;
+    }
+    .w50{
+        width: 100%;
+    }
+}
+
+.foto img{
+    border-radius: 20px;
+}
+
+.texto{
+    text-align: justify;
+}
+
+section.justify{
+    margin-top: 10px;
+}
+
+.centralizar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container-doacao{
+    width: 100%;
+}
+.container-doacao .card{
+    margin-top: 90px;
+}
+
+.listarusuarios{
+    margin-top: 90px;
+}
+
+.btn2{
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info .btn,
+.info .btn2{
+    width: 45%;
 }
